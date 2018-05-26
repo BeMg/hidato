@@ -223,6 +223,9 @@ class GA:
                 shuffle(tmp)
                 self.pool.append(tmp)
 
+            for i in range(self.group_size // 5):
+                self.pool.append(self.mutation(self.pool[i]))
+
             for i in range(self.group_size // 2):
                 x = randint(0, len(self.pool)-1)
                 y = randint(0, len(self.pool)-1)
@@ -239,9 +242,10 @@ class GA:
 
             pool_and_score.sort(reverse=True)
 
-            print(pool_and_score[0])
+            print("Score: {}/{}".format(pool_and_score[0][0], hidato.n*2-2))
 
-            self.pool = [pool_and_score[i][1] for i in range(int(len(pool_and_score)*self.alive_rate))]
+            alive_num = int(len(pool_and_score)*self.alive_rate)
+            self.pool = [pool_and_score[i][1] for i in range(alive_num)]
 
         return self.pool[0]
 
