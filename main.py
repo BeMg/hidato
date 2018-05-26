@@ -243,6 +243,7 @@ class GA:
             pool_and_score.sort(reverse=True, key=lambda s: s[0])
 
             print("Score: {}/{}".format(pool_and_score[0][0], hidato.n*2-2))
+            print(pool_and_score[0][1])
 
             alive_num = int(len(pool_and_score)*self.alive_rate)
             self.pool = [pool_and_score[i][1] for i in range(alive_num)]
@@ -287,6 +288,8 @@ if __name__=='__main__':
         if tmp.n > best.n:
             best = tmp
 
+
+    best.print_table()
     g = GA()
     g.set_alive_rate(float(args.a))
     g.set_group_size(int(args.g))
@@ -295,7 +298,6 @@ if __name__=='__main__':
 
     rst = g.run(best)
 
-    print(best.n)
     best.print_table()
     print(rst)
 
