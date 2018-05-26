@@ -1,6 +1,8 @@
+from random import randint
+
 
 class hidato:
-    def __init__(self, w, h):
+    def __init__(self, h, w):
         self.w = w
         self.h = h
         self.n = w*h
@@ -64,6 +66,42 @@ class hidato:
                 curr_point = tmp_point
         return True
 
+def random_hidato_generator(h, w, remove_rate=0.4):
+    table = [[-1 for i in range(w)] for j in range(h)]
+    curr_x = randint(0, h-1)
+    curr_y = randint(0, w-1)
+
+    step = [(i,j) for i in [1, 0, -1] for j in [1, 0 ,-1]]
+    step.remove((0,0))
+    cnt = 1
+
+    while True:
+        table[curr_x][curr_y] = cnt if randint(1, 100) > remove_rate*100 or cnt == 1 else 0
+        cnt += 1
+
+        next_point = [(curr_x+i, curr_y+j) for i, j in step]
+        safe_step = []
+        for i, j in next_point:
+            if i < 0 or i > h-1 or j < 0 or j > w-1:
+                continue
+            else:
+                if table[i][j] == -1:
+                    safe_step.append((i, j))
+
+        if len(safe_step) == 0:
+            break
+        else:
+            target = randint(0, len(safe_step)-1)
+            curr_x, curr_y = safe_step[target]
+
+    rst = hidato(h, w)
+
+    for i in range(h):
+        for j in range(w):
+            rst.set_point(i, j, table[i][j])
+
+    return rst
+
 class GA:
     pass
 
@@ -79,7 +117,11 @@ if __name__=='__main__':
     a.set_point(2, 0, 7)
     a.set_point(2, 1, 8)
     a.set_point(2, 2, 9)
-    a.print_table()
-    print(a.n)
-    print(a.start_point)
-    print(a.check_solution([2, 6 ,4]))
+    # a.print_table()
+    # print(a.n)
+    # print(a.start_point)
+    # print(a.check_solution([2, 6 ,4]))
+
+    b = random_hidato_generator(10, 14)
+
+    b.print_table()
