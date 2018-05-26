@@ -66,6 +66,21 @@ class hidato:
                 curr_point = tmp_point
         return True
 
+    def get_init_soluation(self):
+        already_have = set()
+        all_have = set(range(1, self.n+1))
+        for i in range(self.h):
+            for j in range(self.w):
+                if self.table[i][j] <= 0:
+                    pass
+                else:
+                    already_have.add(self.table[i][j])
+
+        need_have = all_have - already_have
+
+        return list(need_have)
+
+
 def random_hidato_generator(h, w, remove_rate=0.4):
     table = [[-1 for i in range(w)] for j in range(h)]
     curr_x = randint(0, h-1)
@@ -125,3 +140,6 @@ if __name__=='__main__':
     b = random_hidato_generator(10, 14)
 
     b.print_table()
+
+    print(b.get_init_soluation())
+    print(b.check_solution(b.get_init_soluation()))
