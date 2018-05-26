@@ -1,4 +1,5 @@
 from random import randint, shuffle
+import argparse
 
 
 class hidato:
@@ -94,8 +95,8 @@ class hidato:
 
 def random_hidato_generator(h, w, remove_rate=0.4):
     table = [[-1 for i in range(w)] for j in range(h)]
-    curr_x = randint(0, h-1)
-    curr_y = randint(0, w-1)
+    curr_x = h // 2
+    curr_y = w // 2
 
     step = [(i,j) for i in [1, 0, -1] for j in [1, 0 ,-1]]
     step.remove((0,0))
@@ -261,17 +262,37 @@ if __name__=='__main__':
     # # print(a.start_point)
     # # print(a.check_solution([2, 6 ,4]))
 
-    b = random_hidato_generator(10, 10)
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--n", "--NumOFhidato", help='hidato size')
+    parser.add_argument("--a", "--alive_rate", help='selection number from group')
+    parser.add_argument("--g", "--group_size", help='Group_size')
+    parser.add_argument("--m", "--mutation_rate", help='mutation after crossover')
+    parser.add_argument("--r", "--round", help='GA round')
+
+    args = parser.parse_args()
+
+    n = int(args.n)
+
+    cnt = 0
+    best = random_hidato_generator(n, n)
+    while True and cnt < 100:
+        cnt += 1
+        tmp = random_hidato_generator(n, n)
+        if tmp.n > best.n:
+            best = tmp
 
     g = GA()
-    g.set_alive_rate(0.1)
-    g.set_group_size(1000)
-    g.set_mutation_rate(0.5)
-    g.set_round(50)
+    g.set_alive_rate(float(args.a))
+    g.set_group_size(int(args.g))
+    g.set_mutation_rate(float(args.m))
+    g.set_round(int(args.r))
 
-    rst = g.run(b)
+    rst = g.run(best)
 
-    b.print_table()
+    print(best.n)
+    best.print_table()
     print(rst)
 
-    print(b.check_solution(rst))
+    print(best.check_solution(rst))
