@@ -224,7 +224,7 @@ class GA:
                 self.pool.append(tmp)
 
             for i in range(self.group_size // 5):
-                self.pool.append(self.mutation(self.pool[i]))
+                self.pool.append(self.mutation(self.pool[i].copy()))
 
             for i in range(self.group_size // 2):
                 x = randint(0, len(self.pool)-1)
@@ -240,7 +240,7 @@ class GA:
             for i in range(len(self.pool)):
                 pool_and_score.append((self.fitness(hidato.get_full_table(self.pool[i])), self.pool[i]))
 
-            pool_and_score.sort(reverse=True)
+            pool_and_score.sort(reverse=True, key=lambda s: s[0])
 
             print("Score: {}/{}".format(pool_and_score[0][0], hidato.n*2-2))
 
