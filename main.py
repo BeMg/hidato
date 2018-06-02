@@ -216,6 +216,8 @@ class GA:
 
         self.pool.append(hidato.get_init_soluation())
 
+        rst = dict()
+        score_rst = []
         for i in range(self.round):
             print("Round {}".format(i+1))
             while len(self.pool) < self.group_size:
@@ -243,30 +245,24 @@ class GA:
             pool_and_score.sort(reverse=True, key=lambda s: s[0])
 
             print("Score: {}/{}".format(pool_and_score[0][0], hidato.n*2-2))
+            score_rst.append(pool_and_score[0][0])
             print(pool_and_score[0][1])
 
             alive_num = int(len(pool_and_score)*self.alive_rate)
             self.pool = [pool_and_score[i][1] for i in range(alive_num)]
 
-        return self.pool[0]
+        rst['score'] = score_rst
+        rst['size'] = hidato.n
+        rst['table'] = hidato.table
+        rst['solution'] = pool_and_score[0][1]
+        rst['group_size'] = self.group_size
+        rst['alive_rate'] = self.alive_rate
+        rst['mutation_rate'] = self.mutation_rate
+        rst['round'] = self.round
+        return rst
 
 
 if __name__=='__main__':
-    # a = hidato(3, 3)
-    # a.set_point(0, 0, 1)
-    # # a.set_point(0, 1, 2)
-    # a.set_point(0, 2, 3)
-    # # a.set_point(1, 0, 6)
-    # a.set_point(1, 1, 5)
-    # # a.set_point(1, 2, 4)
-    # a.set_point(2, 0, 7)
-    # a.set_point(2, 1, 8)
-    # a.set_point(2, 2, 9)
-    # # a.print_table()
-    # # print(a.n)
-    # # print(a.start_point)
-    # # print(a.check_solution([2, 6 ,4]))
-
 
     parser = argparse.ArgumentParser()
 
@@ -301,4 +297,4 @@ if __name__=='__main__':
     best.print_table()
     print(rst)
 
-    print(best.check_solution(rst))
+    print(best.check_solution(rst['solution']))
