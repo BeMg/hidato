@@ -249,7 +249,7 @@ class GA:
             print(pool_and_score[0][1])
 
             alive_num = int(len(pool_and_score)*self.alive_rate)
-            self.pool = [pool_and_score[i][1] for i in range(alive_num)]
+            self.pool = [pool_and_score[i][1] for i in range(max(alive_num, 1))]
 
         rst['score'] = score_rst
         rst['size'] = hidato.n
