@@ -10,6 +10,21 @@ class hidato:
         self.start_point = (-1, -1)
         self.table = [[0 for i in range(w)] for j in range(h)]
 
+    def __init__(self, table):
+        self.w = len(table[0])
+        self.h = len(table)
+        self.n = self.w*self.h
+        self.table = [[0 for i in range(w)] for j in range(h)]
+        for i in range(self.h):
+            for j in range(self.w):
+                if table[i][j] == 1:
+                    self.start_point = (i, j)
+                else:
+                    pass
+                self.set_point(i, j, table[i][j])
+
+
+
     def print_table(self):
         for i in range(self.h):
             print("\t".join([str(j) for j in self.table[i]]))
