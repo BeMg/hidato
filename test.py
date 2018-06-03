@@ -8,7 +8,7 @@ if __name__=='__main__':
     group_size = 10000
     round = 1000
     record = []
-    for i in [x+3 for x in range(n-3+1)]: # size
+    for i in [x+5 for x in range(n-5+1)]: # size
         for j in [50+50*x for x in range(20)]: # round
             for k in [0.2*x for x in range(11)]: # alive rate
                 for l in [0.2*x for x in range(11)]: # mutation rate
