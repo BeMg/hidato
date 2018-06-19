@@ -9,8 +9,8 @@ if __name__=='__main__':
     for i in range(10):
         n = (i+1)*5
         group_size = 10000
-        muation_rate = 0.6
-        alive_rate = 0.4
+        muation_rate = 1
+        alive_rate = 0.3
         round = 30
 
         cnt = 0
@@ -21,9 +21,9 @@ if __name__=='__main__':
             if tmp.n > best.n:
                 best = tmp
 
-        # every setting run 20 time get the average
+        # every setting run 200 time get the average
         result = []
-        for j in range(20):
+        for j in range(200):
             g = GA()
             g.set_round(round)
             g.set_mutation_rate(muation_rate)

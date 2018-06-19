@@ -218,6 +218,8 @@ class GA:
 
         rst = dict()
         score_rst = []
+        curr_round = 0
+
         for i in range(self.round):
             print("Round {}".format(i+1))
             while len(self.pool) < self.group_size:
@@ -248,6 +250,10 @@ class GA:
             score_rst.append(pool_and_score[0][0])
             print(pool_and_score[0][1])
 
+            if pool_and_score[0][0] == hidato.n*2-2:
+                curr_round = i+1;
+                break
+
             alive_num = int(len(pool_and_score)*self.alive_rate)
             self.pool = [pool_and_score[i][1] for i in range(max(alive_num, 1))]
 
@@ -258,7 +264,7 @@ class GA:
         rst['group_size'] = self.group_size
         rst['alive_rate'] = self.alive_rate
         rst['mutation_rate'] = self.mutation_rate
-        rst['round'] = self.round
+        rst['round'] = curr_round
         return rst
 
 
@@ -269,7 +275,7 @@ if __name__=='__main__':
     parser.add_argument("--n", "--NumOFhidato", help='hidato size')
     parser.add_argument("--a", "--alive_rate", help='selection number from group')
     parser.add_argument("--g", "--group_size", help='Group_size')
-    parser.add_argument("--m", "--mutation_rate", help='mutation after crossover')
+    parser.add_argumenKt("--m", "--mutation_rate", help='mutation after crossover')
     parser.add_argument("--r", "--round", help='GA round')
 
     args = parser.parse_args()
