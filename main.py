@@ -220,17 +220,17 @@ class GA:
         score_rst = []
         curr_round = 0
 
-        for i in range(self.round):
-            print("Round {}".format(i+1))
+        for r in range(self.round):
+            print("Round {}".format(r+1))
             while len(self.pool) < self.group_size:
                 tmp = self.pool[-1].copy()
                 shuffle(tmp)
                 self.pool.append(tmp)
 
-            for i in range(self.group_size // 5):
+            for i in range(self.group_size):
                 self.pool.append(self.mutation(self.pool[i].copy()))
 
-            for i in range(self.group_size // 2):
+            for i in range(self.group_size):
                 x = randint(0, len(self.pool)-1)
                 y = randint(0, len(self.pool)-1)
                 o1, o2 = self.crossover(self.pool[x], self.pool[y])
@@ -251,10 +251,11 @@ class GA:
             print(pool_and_score[0][1])
 
             if pool_and_score[0][0] == hidato.n*2-2:
-                curr_round = i+1;
+                curr_round = r+1;
                 break
 
-            alive_num = int(len(pool_and_score)*self.alive_rate)
+            # alive_num = int(len(pool_and_score)*self.alive_rate)
+            alive_num = self.group_size
             self.pool = [pool_and_score[i][1] for i in range(max(alive_num, 1))]
 
         rst['score'] = score_rst
